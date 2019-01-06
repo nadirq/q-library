@@ -1,0 +1,2 @@
+"https://{default}/": { type: upstream, upstream: "q-library:http" }
+"http://{default}/": { type: redirect, to: "https://{default}/" }
