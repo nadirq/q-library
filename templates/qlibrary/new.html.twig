@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h4>
+        {% if book.id is defined %}
+            {{ book.name }}
+        {% else %}
+            New book
+        {% endif %}
+    </h4>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+
+    <button>{{ button_label |default('Save') }}</button>
+    {{ form_end(form) }}
+{% endblock %}

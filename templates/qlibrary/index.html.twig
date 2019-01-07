@@ -1,0 +1,7 @@
+{% extends 'base.html.twig' %}
+
+{% set emptyText = 'you have not any book in the library. add new' %}
+{% block content %}
+    <h4>All your books</h4>
+    {% include 'qlibrary/_list.html.twig' %}
+{% endblock %}

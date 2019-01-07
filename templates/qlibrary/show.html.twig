@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h2>{{ book.name }}</h2>
+    <div class="row">
+        <div class="col s4 m4 l4">
+            <img src="{{ book.photo }}" alt="{{ book.name }}" width="100%">
+        </div>
+        <div class="col s8 m3 l8">
+            <i>{{ book.description }}</i>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s1 l1 m1 offset-l9">
+            <form action="{{ path('qlibrary_delete', {id: book.id}) }}" method="post">
+                <button id="delete" type="submit" class="btn-small red">
+                    <i class="material-icons">delete</i>
+                </button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+            $('#delete').on('click', function () {
+                return confirm('Are you sure mazafuka?');
+
+
+            })
+        });
+    </script>
+{% endblock %}

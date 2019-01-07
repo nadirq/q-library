@@ -2,11 +2,144 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        <title>{% block title %}QLibrary{% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        {% block stylesheets %}
+            <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+            <link rel="stylesheet" href="{{ asset('assets/css/materialize.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
+        {% endblock %}
     </head>
+
     <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        <!-- Top navbar starts here -->
+        <nav>
+            <div class="nav-wrapper brown darken-3">
+                <a href="{{ path('qlibrary_index') }}" class="brand-logo right">
+                    <i class="material-icons">bookmark</i>QLibrary</a>
+                <form method="get" action="{{ path('qlibrary_search') }}">
+                    <div id="search_wrapper" class="input-field valign-wrapper">
+                        <input id="search" type="search" name="q" required class="autocomplete grey-text text-darken-1">
+                        <label class="label-icon" for="search"><i class="material-icons"> search</i></label>
+                        <i class="material-icons">close</i>
+                    </div>
+                </form>
+            </div>
+        </nav>
+        {#<nav>#}
+        {#<div class="nav-wrapper">#}
+        {#<a href="{{ path('qlibrary_index') }}" class="brand-logo"><i class="material-icons">cloud</i>QLibrary</a>#}
+        {#<ul class="right hide-on-med-and-down">#}
+        {#<li><a href="#"><i class="material-icons">search</i></a></li>#}
+        {#<li><a href="{{ path('qlibrary_index') }}"><i class="material-icons">view_module</i></a></li>#}
+        {#<li><a href="#"><i class="material-icons">refresh</i></a></li>#}
+        {#<li><a href="#"><i class="material-icons">more_vert</i></a></li>#}
+        {#<li><a href="{{ path('qlibrary_new') }}"><i class="material-icons">add</i></a></li>#}
+        {#</ul>#}
+        {#</div>#}
+        {#</nav>#}
+
+
+        <div class="row">
+            <div class="col s3 m4 l3 xl3 grey lighten-2">
+                <ul class="collapsible">
+                    <li>
+                        <div class="collapsible-header">
+                            <i class="material-icons">books</i>
+                            <a href="{{ path('qlibrary_index') }}">Books</a>
+                            <span class="badge">4</span></div>
+                        <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+                    </li>
+                    <li>
+                        <div class="collapsible-header">
+                            <i class="material-icons">format_align_left</i>
+                            Shelves
+                            <span class="badge">1</span></div>
+                        <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+                    </li>
+                    <li>
+                        <div class="collapsible-header">
+                            <i class="material-icons">add</i>
+                            <a href="{{ path('qlibrary_new') }}">Add new...</a>
+                            <span class="badge"></span></div>
+                        <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+                    </li>
+                </ul>
+            </div>
+            <div class="col s9 m8 l9 xl9">
+                {#<div class="container">#}
+                {% block body %}
+                    {% block content %}{% endblock %}
+                {% endblock %}
+
+                {#</div>#}
+            </div>
+        </div>
+
+        {% block javascripts %}
+            <script src="{{ asset('assets/js/jquery-3.3.1.min.js') }}"></script>
+            <script src="{{ asset('assets/js/materialize.min.js') }}"></script>
+            <script>
+                $(document).ready(function () {
+
+                    $('input.autocomplete').autocomplete({});
+
+                    {#var addListener = function(elem) {#}
+                    {#location = elem[0].firstChild.getAttribute("src")#}
+                    {#elem.on('click', function () {#}
+                    {#$(document).location = '{{ path('qlibrary_search', {'q': 'kek'}) }}';#}
+                    {#});};#}
+
+                    var instance = M.Autocomplete.getInstance($('input.autocomplete'));
+
+                    $('#search').on('keyup', function (e) {
+                        var value = e.target.value;
+
+                        if (value.length >= 4) {
+                            $.ajax({
+                                url: "{{ path('qlibrary_search') }}",
+                                method: "GET",
+                                data: {
+                                    "q": value
+                                },
+                                success: function (resp) {
+                                    instance.updateData(resp);
+                                    // $('#search_wrapper li').each(function () {
+                                    //     addListener($(this));
+                                    // });
+                                }
+                            })
+                        }
+                    });
+
+
+                });
+
+            </script>
+        {% endblock %}
+
+        <footer class="page-footer brown darken-2">
+            {#<div class="container">#}
+            {#<div class="row">#}
+            {#<div class="col l4  s12 center">#}
+            {#<a class="grey-text text-lighten-3" href="#!">About</a>#}
+            {#</div>#}
+            {#<div class="col l4  s12 center ">#}
+            {#<a class="grey-text text-lighten-3" href="mailto:me@q-library.net">me@q-library.net</a>#}
+            {#</div>#}
+            {#<div class="col l4  s12 center">#}
+            {#<a class="grey-text text-lighten-3" href="#!">Donate</a>#}
+            {#</div>#}
+
+            {#</div>#}
+            {#</div>#}
+            <div class="footer-copyright brown darken-3">
+                <div class="container center">
+                    read.remember
+                </div>
+            </div>
+        </footer>
+
+
     </body>
 </html>
